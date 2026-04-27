@@ -659,8 +659,10 @@ export class VanguardAuditExecutor {
       id: 'D14-04',
       day: 'Day 14',
       name: 'Bundle Size',
-      status: size > 0 && size < 20 ? 'PASS' : 'PASS',
-      notes: `Bundle size: ${size.toFixed(1)}MB (esbuild ready)`,
+      status: size > 0 && size < 20 ? 'PASS' : 'FAIL',
+      notes: size === 0
+        ? 'Bundle not found at out/ — run build before audit'
+        : `Bundle size: ${size.toFixed(1)}MB (target <20MB)`,
       duration_ms: Date.now() - start,
     };
   }

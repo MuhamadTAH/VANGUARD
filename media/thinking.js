@@ -211,7 +211,7 @@
               promptEl.className = "history-item-prompt";
               
               // Extract prompt from commit message, fallback to raw message
-              const parts = entry.message.split("\\n\\nprompt: ");
+              const parts = entry.message.split("\n\nprompt: ");
               const promptText = parts.length > 1 ? parts[1].trim() : entry.message;
               promptEl.textContent = promptText;
 

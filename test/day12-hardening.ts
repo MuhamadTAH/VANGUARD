@@ -13,6 +13,11 @@
 
 import * as fs from "node:fs";
 import * as path from "node:path";
+import {
+  buildVanguardIdentityState,
+  validateVanguardOutput,
+  VanguardValidationError
+} from "../src/logic/validator";
 
 interface LatencyTargetResult {
   target: string;
@@ -417,25 +422,32 @@ class Day12Tester {
     console.log("✅ Part 3: Validator Accuracy Audit");
     console.log("========================================\n");
 
-    const testCases = 20; // Real-world component mutations
+    const fixtures = this.getValidatorFixtures();
+    const testCases = fixtures.length;
     let passed = 0;
     const failuresByType: Record<string, number> = {};
 
-    for (let i = 0; i < testCases; i++) {
-      // Simulate real validator running on complex components
-      // In production: use actual validator.ts validateVanguardOutput()
-      const isValid = Math.random() < 0.95; // 95% pass rate simulation (beating 80% target)
-
-      if (isValid) {
-        passed++;
-        process.stdout.write(".");
-      } else {
-        // Track failure types
-        const failureType = ["missing-v-id", "duplicate-id", "identity-mutation", "parse-error"][
-          Math.floor(Math.random() * 4)
-        ];
-        failuresByType[failureType] = (failuresByType[failureType] || 0) + 1;
-        process.stdout.write("x");
+    for (const fixture of fixtures) {
+      try {
+        const previousState = buildVanguardIdentityState(fixture.baseline);
+        validateVanguardOutput(fixture.mutated, previousState);
+        if (fixture.expectedValid) {
+          passed++;
+          process.stdout.write(".");
+        } else {
+          const key = fixture.expectedFailureType ?? "validation-mismatch";
+          failuresByType[key] = (failuresByType[key] || 0) + 1;
+          process.stdout.write("x");
+        }
+      } catch (error) {
+        const actualType = this.classifyValidationFailure(error);
+        if (!fixture.expectedValid && actualType === fixture.expectedFailureType) {
+          passed++;
+          process.stdout.write(".");
+        } else {
+          failuresByType[actualType] = (failuresByType[actualType] || 0) + 1;
+          process.stdout.write("x");
+        }
       }
     }
 
@@ -451,6 +463,86 @@ class Day12Tester {
 
     this.results.validatorAccuracy = result;
     return result;
+  }
+
+  private classifyValidationFailure(error: unknown): string {
+    if (error instanceof VanguardValidationError) {
+      if (error.message.includes("MISSING_ID")) {
+        return "missing-v-id";
+      }
+      if (error.message.includes("DUPLICATE_ID")) {
+        return "duplicate-id";
+      }
+      if (error.message.includes("IDENTITY_MUTATION")) {
+        return "identity-mutation";
+      }
+      return "validation-error";
+    }
+    return "parse-error";
+  }
+
+  private getValidatorFixtures(): Array<{
+    baseline: string;
+    mutated: string;
+    expectedValid: boolean;
+    expectedFailureType?: string;
+  }> {
+    const baseline = [
+      "export function DashboardCard() {",
+      "  return (",
+      "    <main v-id=\"vg_main\">",
+      "      <Card v-id=\"vg_card\">",
+      "        <button v-id=\"vg_btn\">Run</button>",
+      "      </Card>",
+      "    </main>",
+      "  );",
+      "}"
+    ].join("\n");
+
+    const validMutations = [
+      baseline.replace(">Run<", ">Run test<"),
+      baseline.replace("<Card v-id=\"vg_card\">", "<Card v-id=\"vg_card\" className=\"rounded-lg\">"),
+      baseline.replace("<button v-id=\"vg_btn\">Run</button>", "<button v-id=\"vg_btn\">Run now</button>"),
+      baseline.replace("return (", "const title = \"Dashboard\";\n  return ("),
+      baseline.replace("<main v-id=\"vg_main\">", "<main v-id=\"vg_main\" data-state=\"ok\">"),
+      baseline.replace("Run", "Execute"),
+      baseline.replace("<Card v-id=\"vg_card\">", "<Card v-id=\"vg_card\" aria-label=\"control\">"),
+      baseline.replace("<button v-id=\"vg_btn\">Run</button>", "<button v-id=\"vg_btn\" type=\"button\">Run</button>"),
+      baseline.replace("DashboardCard", "DashboardCardV2"),
+      baseline.replace("</Card>", "        <span>Ready</span>\n      </Card>"),
+      baseline.replace("<main v-id=\"vg_main\">", "<main v-id=\"vg_main\" className=\"p-4\">"),
+      baseline.replace("<Card v-id=\"vg_card\">", "<Card v-id=\"vg_card\" data-role=\"primary\">"),
+      baseline.replace("<button v-id=\"vg_btn\">Run</button>", "<button v-id=\"vg_btn\">Ship</button>"),
+      baseline.replace("Run", "Launch"),
+      baseline.replace("DashboardCard", "DashboardCardProd"),
+      baseline.replace("<button v-id=\"vg_btn\">Run</button>", "<button v-id=\"vg_btn\" disabled={false}>Run</button>"),
+      baseline.replace("<Card v-id=\"vg_card\">", "<Card v-id=\"vg_card\" id=\"card-root\">")
+    ];
+
+    const invalidMutations = [
+      {
+        mutated: baseline.replace("<Card v-id=\"vg_card\">", "<Card>"),
+        expectedFailureType: "missing-v-id"
+      },
+      {
+        mutated: baseline.replace("v-id=\"vg_btn\"", "v-id=\"vg_card\""),
+        expectedFailureType: "duplicate-id"
+      },
+      {
+        mutated: baseline.replace("<Card v-id=\"vg_card\">", "<section v-id=\"vg_card\">").replace("</Card>", "</section>"),
+        expectedFailureType: "identity-mutation"
+      }
+    ];
+
+    return [
+      ...validMutations.map((mutated) => ({ baseline, mutated, expectedValid: true })),
+      ...invalidMutations.map(({ mutated, expectedFailureType }) => ({
+        baseline,
+        mutated,
+        expectedValid: false,
+        expectedFailureType
+      }))
+    ];
   }
 
   /**

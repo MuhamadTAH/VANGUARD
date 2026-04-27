@@ -66,18 +66,15 @@ export class VirtualFileSystem {
     const edit = new vscode.WorkspaceEdit();
     for (const event of this.events) {
       const uri = vscode.Uri.file(event.filePath);
-      if (event.type === "UPDATE_FILE" || event.type === "CREATE_FILE") {
-        if (event.content !== undefined) {
-          // If the file exists physically but not in workspace edit, replace entire file
-          // Note: for simple flush we can just do fs.writeFileSync or use WorkspaceEdit
-          // WorkspaceEdit allows VSCode to track it and trigger onDidSave nicely if we save
-          const doc = await vscode.workspace.openTextDocument(uri);
-          const fullRange = new vscode.Range(
-            doc.positionAt(0),
-            doc.positionAt(doc.getText().length)
-          );
-          edit.replace(uri, fullRange, event.content);
-        }
+      if (event.type === "CREATE_FILE" && event.content !== undefined) {
+        edit.createFile(uri, { overwrite: true, contents: Buffer.from(event.content, "utf-8") });
+      } else if (event.type === "UPDATE_FILE" && event.content !== undefined) {
+        const doc = await vscode.workspace.openTextDocument(uri);
+        const fullRange = new vscode.Range(
+          doc.positionAt(0),
+          doc.positionAt(doc.getText().length)
+        );
+        edit.replace(uri, fullRange, event.content);
       } else if (event.type === "DELETE_FILE") {
         edit.deleteFile(uri);
       }

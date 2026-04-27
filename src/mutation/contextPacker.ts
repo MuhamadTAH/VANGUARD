@@ -41,7 +41,7 @@ export async function packMutationContext(vId: string, prompt: string): Promise<
       continue;
     }
 
-    const parent = located.path.parentPath.findParent((p) => p.isJSXElement()) as NodePath<JSXElement> | null;
+    const parent = located.path.findParent((p) => p.isJSXElement()) as NodePath<JSXElement> | null;
     const parentSource = extractNodeSource(source, parent?.node?.start, parent?.node?.end);
     const siblingSources = collectSiblings(source, located.path, parent);
     const tailwindContext = await loadTailwindContext(uri);
@@ -219,4 +219,3 @@ function chooseRoute(prompt: string): "fast-stream" | "reasoning-heavy" {
   const hasLogic = logicWords.some((word) => low.includes(word));
   return hasStyle && !hasLogic ? "fast-stream" : "reasoning-heavy";
 }
-

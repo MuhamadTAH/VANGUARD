@@ -163,7 +163,7 @@ export class ProjectValidator {
    * Extract major version from version string
    */
   private extractMajorVersion(versionString: string): number {
-    const match = versionString.match(/^(\d+)/);
+    const match = versionString.trim().match(/(\d+)/);
     return match ? parseInt(match[1], 10) : 0;
   }
 }
