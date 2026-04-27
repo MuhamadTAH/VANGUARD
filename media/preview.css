@@ -1,0 +1,248 @@
+:root {
+  --bg: #0f1217;
+  --panel: #171c24;
+  --border: #283241;
+  --text: #d9e3f0;
+  --muted: #93a2b7;
+  --accent: #4fd1c5;
+  --vanguard-blue: #3b82f6;
+  --vanguard-blue-dim: rgba(59, 130, 246, 0.15);
+  --vanguard-blue-glow: rgba(59, 130, 246, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  color: var(--text);
+  background: radial-gradient(circle at 10% 10%, #1a2230, var(--bg));
+  font-family: "Segoe UI", "SF Pro Text", sans-serif;
+  overflow: hidden;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Topbar ─────────────────────────────────────────────────────────────────── */
+.topbar {
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.25);
+  padding: 0 12px;
+  gap: 8px;
+}
+
+.title {
+  font-size: 12px;
+  letter-spacing: 1px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.status {
+  color: var(--accent);
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+/* ── Surgical Selector Button ─────────────────────────────────────────────── */
+#selector-toggle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--muted);
+  border-radius: 5px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  transition: background 0.15s, border-color 0.15s, color 0.15s, box-shadow 0.15s;
+  position: relative;
+  white-space: nowrap;
+}
+
+#selector-toggle svg {
+  flex-shrink: 0;
+  transition: filter 0.15s;
+}
+
+#selector-toggle:hover {
+  border-color: var(--vanguard-blue);
+  color: var(--vanguard-blue);
+  background: var(--vanguard-blue-dim);
+}
+
+#selector-toggle.selector-active {
+  border-color: var(--vanguard-blue);
+  background: var(--vanguard-blue-dim);
+  color: var(--vanguard-blue);
+  box-shadow: 0 0 0 1px var(--vanguard-blue), 0 0 12px var(--vanguard-blue-glow);
+  animation: selectorPulse 2s ease-in-out infinite;
+}
+
+@keyframes selectorPulse {
+  0%, 100% { box-shadow: 0 0 0 1px var(--vanguard-blue), 0 0 8px var(--vanguard-blue-glow); }
+  50%       { box-shadow: 0 0 0 1px var(--vanguard-blue), 0 0 20px var(--vanguard-blue-glow); }
+}
+
+#selector-badge {
+  display: none;
+  background: var(--vanguard-blue);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 8px;
+  letter-spacing: 0.08em;
+}
+
+/* ── Layout ─────────────────────────────────────────────────────────────────── */
+.layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* ── Events Sidebar ─────────────────────────────────────────────────────────── */
+.events {
+  border-right: 1px solid var(--border);
+  padding: 10px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.2);
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.events h2 {
+  margin: 0 0 8px 0;
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* ── Mutation Box ─────────────────────────────────────────────────────────── */
+.mutate-box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.02);
+  flex-shrink: 0;
+}
+
+.mutate-box label {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.mutate-box input,
+.mutate-box textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: #0f131a;
+  color: var(--text);
+  padding: 6px 8px;
+  font-size: 12px;
+  font-family: Consolas, "Courier New", monospace;
+  transition: border-color 0.15s;
+}
+
+.mutate-box input:focus,
+.mutate-box textarea:focus {
+  outline: none;
+  border-color: var(--vanguard-blue);
+}
+
+.mutate-box textarea {
+  resize: vertical;
+  min-height: 70px;
+}
+
+.mutate-box button {
+  border: 1px solid #2f8f86;
+  background: #17524d;
+  color: #dff8f5;
+  border-radius: 4px;
+  padding: 7px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: filter 0.15s;
+}
+
+.mutate-box button:hover {
+  filter: brightness(1.1);
+}
+
+/* ── Event List ─────────────────────────────────────────────────────────────── */
+.event-list {
+  flex: 1 1 0;
+  overflow: auto;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 11px;
+  line-height: 1.4;
+  min-height: 0;
+}
+
+.event-row {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 4px 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.event-error { color: #ff8f8f; }
+.event-warn  { color: #ffd27a; }
+
+/* ── Canvas ─────────────────────────────────────────────────────────────────── */
+.canvas {
+  padding: 8px;
+  min-height: 0;
+  display: flex;
+  position: relative;
+}
+
+#preview-frame {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #fff;
+  transition: border-color 0.2s;
+}
+
+/* Highlight iframe border when selector is active */
+body.selector-on #preview-frame {
+  border-color: var(--vanguard-blue);
+  box-shadow: 0 0 0 1px var(--vanguard-blue), 0 0 16px rgba(59, 130, 246, 0.2);
+}
