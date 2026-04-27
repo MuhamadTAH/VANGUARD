@@ -1,0 +1,162 @@
+{
+  "name": "vanguard-extension",
+  "displayName": "Vanguard",
+  "description": "Deterministic Visual Git and v-id integrity engine for Next.js and Tailwind codebases.",
+  "version": "0.1.0",
+  "publisher": "vanguard",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vanguard/vanguard-extension"
+  },
+  "icon": "media/icon.png",
+  "engines": {
+    "vscode": "^1.92.0"
+  },
+  "categories": [
+    "AI",
+    "Developer Tools",
+    "Other"
+  ],
+  "activationEvents": [
+    "onLanguage:javascriptreact",
+    "onLanguage:typescriptreact",
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "walkthroughs": [
+      {
+        "id": "vanguard.firstLaunch",
+        "title": "Vanguard Launch",
+        "description": "Get started with Vanguard AI mutations in 4 steps",
+        "steps": [
+          {
+            "id": "vanguard.step.project",
+            "title": "Open Your Next.js 16 Project",
+            "description": "Open a compatible Next.js 16 + Tailwind 4 project.\n[Open Folder](command:workbench.action.files.openFolder)",
+            "media": {
+              "markdown": "media/walkthrough-project.md"
+            },
+            "completionEvents": [
+              "onCommand:workbench.action.files.openFolder"
+            ]
+          },
+          {
+            "id": "vanguard.step.login",
+            "title": "Sign In",
+            "description": "Create a free account or sign in to get started.\n[Sign In](command:vanguard.login)",
+            "media": {
+              "markdown": "media/walkthrough-login.md"
+            },
+            "completionEvents": [
+              "onCommand:vanguard.login"
+            ]
+          },
+          {
+            "id": "vanguard.step.preview",
+            "title": "Open Preview",
+            "description": "Launch the Vanguard preview to see your component mutations in real-time.\n[Open Preview](command:vanguard.openPreview)",
+            "media": {
+              "markdown": "media/walkthrough-preview.md"
+            },
+            "completionEvents": [
+              "onCommand:vanguard.openPreview"
+            ]
+          },
+          {
+            "id": "vanguard.step.mutate",
+            "title": "Try Your First Mutation",
+            "description": "Click on a component in the preview, describe how you want it to change, and watch Vanguard generate the code instantly.\n[Learn More](command:vanguard.help)",
+            "media": {
+              "markdown": "media/walkthrough-mutate.md"
+            }
+          }
+        ]
+      }
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "Vanguard Configuration",
+      "properties": {
+        "vanguard.dataPrivacy.optOut": {
+          "type": "boolean",
+          "default": false,
+          "description": "Opt-out of Vanguard's anonymized mutation triplet telemetry collection."
+        },
+        "vanguard.apiUrl": {
+          "type": "string",
+          "default": "http://localhost:3000",
+          "description": "API proxy URL (for development/self-hosted)"
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "vanguard.login",
+        "title": "Vanguard: Sign In"
+      },
+      {
+        "command": "vanguard.logout",
+        "title": "Vanguard: Sign Out"
+      },
+      {
+        "command": "vanguard.openPreview",
+        "title": "Vanguard: Open Preview"
+      },
+      {
+        "command": "vanguard.validateActiveFile",
+        "title": "Vanguard: Validate Active File"
+      },
+      {
+        "command": "vanguard.scanWorkspace",
+        "title": "Vanguard: Scan Workspace"
+      },
+      {
+        "command": "vanguard.refreshBaseline",
+        "title": "Vanguard: Refresh Fingerprint Baseline"
+      },
+      {
+        "command": "vanguard.openThinkingLog",
+        "title": "Vanguard: Open Thinking Log"
+      },
+      {
+        "command": "vanguard.help",
+        "title": "Vanguard: Help & Documentation"
+      }
+    ]
+  },
+  "scripts": {
+    "build": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "tsc -noEmit -p ./",
+    "test:build": "tsc -p ./tsconfig.test.json",
+    "test": "npm run test:build && node out-test/test/validator.test.js",
+    "test:day11": "npm run test:build && node out-test/test/day11-meat-grinder.test.js",
+    "test:day12": "npm run test:build && node out-test/test/day12-real-world-hardening.test.js",
+    "test:day13": "npm run test:build && node out-test/test/day13-business-paywall.test.js",
+    "test:day14": "npm run test:build && node out-test/test/day14-launch-readiness.test.js",
+    "prepublish": "npm run build",
+    "package": "npm run build && vsce package",
+    "publish-vsx": "vsce publish"
+  },
+  "devDependencies": {
+    "@types/babel__traverse": "^7.20.6",
+    "@types/node": "^20.17.0",
+    "@types/vscode": "^1.92.0",
+    "typescript": "^5.6.3",
+    "vsce": "^2.15.0"
+  },
+  "dependencies": {
+    "@babel/parser": "^7.26.5",
+    "@babel/traverse": "^7.26.5",
+    "@babel/types": "^7.26.5",
+    "@webcontainer/api": "^1.6.4",
+    "eventsource-parser": "^3.0.8",
+    "isomorphic-git": "^1.30.1",
+    "memfs": "^4.57.2",
+    "meriyah": "^7.1.0",
+    "openai": "^4.104.0",
+    "zod": "^3.23.8"
+  }
+}

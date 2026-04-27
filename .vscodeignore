@@ -1,0 +1,7 @@
+**/.vscode/**
+**/.git/**
+**/*.map
+**/*.ts
+src/**
+node_modules/**
+README.dev.md
