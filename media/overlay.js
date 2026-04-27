@@ -74,7 +74,7 @@
   // ── Walk up DOM to find innermost v-id owner ────────────────────────────────
   function resolveVId(el) {
     let node = el;
-    while (node && node !== document.documentElement) {
+    while (node) {
       const vid = node.getAttribute && node.getAttribute(ATTR_VID);
       if (vid) {
         return { node, vid };
@@ -126,7 +126,9 @@
       return;
     }
 
-    const topEl = document.elementFromPoint(pendingX, pendingY);
+    const x = pendingX;
+    const y = pendingY;
+    const topEl = document.elementFromPoint(x, y);
     pendingX = -1;
     pendingY = -1;
 
@@ -137,6 +139,12 @@
 
     const hit = resolveVId(topEl);
     if (!hit) {
+      hideOverlay();
+      return;
+    }
+
+    const currentTop = document.elementFromPoint(x, y);
+    if (!currentTop || (currentTop !== topEl && !topEl.contains(currentTop))) {
       hideOverlay();
       return;
     }
@@ -161,11 +169,28 @@
     }
     // Prevent normal click from reaching the app
     e.preventDefault();
-    e.stopPropagation();
+    e.stopImmediatePropagation();
 
     const payload = { type: "preview/selectElement", vId: currentVId };
     // Send to parent webview (the VS Code panel)
     window.parent.postMessage(payload, "*");
+  }
+
+  function onSuppressClick(e) {
+    if (!active) {
+      return;
+    }
+    e.preventDefault();
+    e.stopImmediatePropagation();
+  }
+
+  function onViewportChanged() {
+    if (!active) {
+      return;
+    }
+    hideOverlay();
+    pendingX = -1;
+    pendingY = -1;
   }
 
   // ── Activation API (driven by parent postMessage) ──────────────────────────
@@ -176,6 +201,10 @@
     active = true;
     document.addEventListener("mousemove", onMouseMove, { passive: true });
     document.addEventListener("mousedown", onMouseDown, { capture: true });
+    document.addEventListener("mouseup", onSuppressClick, { capture: true });
+    document.addEventListener("click", onSuppressClick, { capture: true });
+    window.addEventListener("scroll", onViewportChanged, { capture: true, passive: true });
+    window.addEventListener("resize", onViewportChanged, { passive: true });
   }
 
   function deactivateOverlay() {
@@ -186,6 +215,14 @@
     hideOverlay();
     document.removeEventListener("mousemove", onMouseMove);
     document.removeEventListener("mousedown", onMouseDown, { capture: true });
+    document.removeEventListener("mouseup", onSuppressClick, { capture: true });
+    document.removeEventListener("click", onSuppressClick, { capture: true });
+    window.removeEventListener("scroll", onViewportChanged, { capture: true });
+    window.removeEventListener("resize", onViewportChanged);
+    if (rafId) {
+      cancelAnimationFrame(rafId);
+      rafId = 0;
+    }
     pendingX = -1;
     pendingY = -1;
   }

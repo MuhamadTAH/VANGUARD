@@ -10,8 +10,8 @@ Let's get you started by creating or signing into your Vanguard account. Your ac
 1. A login panel will open
 2. Enter your email
 3. You'll get a secure session token
-4. It's saved locally in VS Code (encrypted)
+4. It's stored in VS Code SecretStorage (uses your OS keyring when available)
 
-Your email is only used for account recovery and billing. We never share it.
+For account and data-handling details, refer to the project's privacy policy and terms.
 
 👉 **Ready?** Click the "Sign In" button above to get started!

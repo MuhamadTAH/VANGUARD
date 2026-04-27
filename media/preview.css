@@ -217,7 +217,7 @@ body {
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   padding: 4px 0;
   white-space: pre-wrap;
-  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 .event-error { color: #ff8f8f; }

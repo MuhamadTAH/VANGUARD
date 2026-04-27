@@ -23,13 +23,13 @@ Hit Enter or click "Mutate". Vanguard will:
 5. Apply it to the file (with a git commit)
 
 ## Your Free Tier
-- **20 mutations/month** (resets on the 1st)
+- **20 mutations/month** (resets on the 1st at 00:00 UTC)
 - Full access to all features
 - Upgrade to Pro for unlimited mutations
 
 ## Need Help?
-- 📖 [Full documentation](https://vanguard.dev/docs)
-- 💬 [Community Discord](https://discord.gg/vanguard)
-- 🐛 [Report a bug](https://github.com/vanguard/vanguard-extension/issues)
+- 📖 [Full documentation](https://github.com/MuhamadTAH/VANGUARD#readme)
+- 💬 [Community discussions](https://github.com/MuhamadTAH/VANGUARD/discussions)
+- 🐛 [Report a bug](https://github.com/MuhamadTAH/VANGUARD/issues)
 
 Happy mutating! 🎉

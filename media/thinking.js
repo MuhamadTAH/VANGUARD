@@ -1,4 +1,7 @@
 (function () {
+  "use strict";
+  const vscode = (typeof acquireVsCodeApi === "function") ? acquireVsCodeApi() : null;
+
   // ── Elements ────────────────────────────────────────────────────────────────
 
   const latencyBadge = document.getElementById("latency-badge");
@@ -187,8 +190,8 @@
       }
 
       case "history/refresh": {
-        if (typeof acquireVsCodeApi === "function") {
-          acquireVsCodeApi().postMessage({ type: "history/request" });
+        if (vscode) {
+          vscode.postMessage({ type: "history/request" });
         }
         break;
       }
@@ -225,7 +228,9 @@
               btnEl.className = "restore-btn";
               btnEl.textContent = "Restore";
               btnEl.onclick = () => {
-                acquireVsCodeApi().postMessage({ type: "history/restore", oid: entry.oid });
+                if (vscode) {
+                  vscode.postMessage({ type: "history/restore", oid: entry.oid });
+                }
               };
 
               metaEl.appendChild(infoEl);
@@ -247,8 +252,8 @@
   });
 
   // Request initial history
-  if (typeof acquireVsCodeApi === "function") {
-    acquireVsCodeApi().postMessage({ type: "history/request" });
+  if (vscode) {
+    vscode.postMessage({ type: "history/request" });
   }
 
   // ── Utility ──────────────────────────────────────────────────────────────────

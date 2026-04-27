@@ -161,9 +161,12 @@
   window.addEventListener("message", function (e) {
     const msg = e.data;
     if (!msg || typeof msg.type !== "string") { return; }
+    const iframeWindow = frameEl ? frameEl.contentWindow : null;
+    const fromIframe = Boolean(iframeWindow && e.source === iframeWindow);
 
     // ── Messages from the iframe overlay ──────────────────────────────────────
     if (msg.type === "vanguard/overlayReady") {
+      if (!fromIframe) { return; }
       overlayReady = true;
       if (selectorActive) {
         sendToOverlay("vanguard/activateOverlay");
@@ -172,6 +175,7 @@
     }
 
     if (msg.type === "preview/selectElement") {
+      if (!fromIframe) { return; }
       // Relay to Extension Host — ONLY the vId, never stale coords
       if (typeof msg.vId !== "string" || !msg.vId.trim()) { return; }
       addEventLine("[selector] ⚡ Selected: " + msg.vId, "info");
@@ -185,6 +189,7 @@
       vscode.postMessage({ type: "preview/selectElement", vId: msg.vId });
       return;
     }
+    if (fromIframe) { return; }
 
     // ── Messages FROM Extension Host (postMessage via webview channel) ─────
     const message = msg;

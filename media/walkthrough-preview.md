@@ -17,4 +17,4 @@ The Vanguard Preview is where the magic happens. Here's what you'll see:
 
 Click "Open Preview" above to launch the preview panel.
 
-💡 **Tip**: Your dev server should be running in another terminal. Vanguard will auto-detect it!
+💡 **Tip**: Start your dev server in another terminal, then confirm the preview URL/port in Vanguard (for example `http://localhost:3000`). Vanguard connects once it's configured.

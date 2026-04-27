@@ -1,1 +1,1 @@
-Open your **Next.js 16 + Tailwind 4** workspace first so Vanguard can validate project compatibility and map components correctly.
+Open your **Next.js 14+ + Tailwind 3+** workspace first so Vanguard can validate project compatibility and map components correctly.
