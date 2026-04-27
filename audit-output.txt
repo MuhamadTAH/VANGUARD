@@ -1,0 +1,5 @@
+VANGUARD DAY 10 AUDIT
+✅ Task 1: The 'Full Loop' Capture passed.
+✅ Task 2: PII Stripper passed.
+✅ Task 3: 'Kill-Switch' passed. Zero new data recorded.
+✅ Task 4: 'Time-Out' Test passed. Edit correctly ignored.

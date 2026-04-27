@@ -1,0 +1,13 @@
+Setup complete.
+
+--- Test 1: The 'Grandchild' Trace (Depth-2 Verification) ---
+✅ Passed Test 1. Grandchild LogicWrapper -> math.ts found.
+
+--- Test 2: The 'API Signature' Duel ---
+✅ Passed Test 2. useVanguardTheme signature correctly mapped.
+
+--- Test 3: The 'Token Firewall' (Stress Test) ---
+✅ Passed Test 3. Depth-2 correctly dropped because payload exceeded max tokens!
+
+--- Test 4: The 'Black Hole' Test (Exclusion Check) ---
+✅ Passed Test 4. Black Hole excluded framer-motion and lucide-react sources.

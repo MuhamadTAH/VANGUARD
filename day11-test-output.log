@@ -1,0 +1,121 @@
+
+========================================
+≡ƒÜÇ Day 11: Full Loop Integration Tests
+========================================
+
+
+[3%] Running mutation 1/30: simple-button-1
+Γ£à PASS - Wall clock time: 1220ms
+
+[7%] Running mutation 2/30: simple-button-2
+Γ£à PASS - Wall clock time: 1184ms
+
+[10%] Running mutation 3/30: simple-button-3
+Γ£à PASS - Wall clock time: 1177ms
+
+[13%] Running mutation 4/30: simple-button-4
+Γ£à PASS - Wall clock time: 1197ms
+
+[17%] Running mutation 5/30: simple-button-5
+Γ¥î FAIL - Failure point: validator-execution
+
+[20%] Running mutation 6/30: simple-button-6
+Γ£à PASS - Wall clock time: 1183ms
+
+[23%] Running mutation 7/30: simple-button-7
+Γ£à PASS - Wall clock time: 1213ms
+
+[27%] Running mutation 8/30: simple-button-8
+Γ£à PASS - Wall clock time: 1209ms
+
+[30%] Running mutation 9/30: simple-button-9
+Γ£à PASS - Wall clock time: 1195ms
+
+[33%] Running mutation 10/30: simple-button-10
+Γ£à PASS - Wall clock time: 1186ms
+
+[37%] Running mutation 11/30: multi-prop-card-1
+Γ£à PASS - Wall clock time: 1177ms
+
+[40%] Running mutation 12/30: multi-prop-card-2
+Γ£à PASS - Wall clock time: 1213ms
+
+[43%] Running mutation 13/30: multi-prop-card-3
+Γ£à PASS - Wall clock time: 1191ms
+
+[47%] Running mutation 14/30: multi-prop-card-4
+Γ£à PASS - Wall clock time: 1196ms
+
+[50%] Running mutation 15/30: multi-prop-card-5
+Γ£à PASS - Wall clock time: 1196ms
+
+[53%] Running mutation 16/30: multi-prop-card-6
+Γ£à PASS - Wall clock time: 1181ms
+
+[57%] Running mutation 17/30: multi-prop-card-7
+Γ£à PASS - Wall clock time: 1197ms
+
+[60%] Running mutation 18/30: multi-prop-card-8
+Γ¥î FAIL - Failure point: validator-execution
+
+[63%] Running mutation 19/30: multi-prop-card-9
+Γ£à PASS - Wall clock time: 1200ms
+
+[67%] Running mutation 20/30: multi-prop-card-10
+Γ£à PASS - Wall clock time: 1182ms
+
+[70%] Running mutation 21/30: imported-hooks-1
+Γ£à PASS - Wall clock time: 1193ms
+
+[73%] Running mutation 22/30: imported-hooks-2
+Γ£à PASS - Wall clock time: 1195ms
+
+[77%] Running mutation 23/30: imported-hooks-3
+Γ£à PASS - Wall clock time: 1196ms
+
+[80%] Running mutation 24/30: imported-hooks-4
+Γ£à PASS - Wall clock time: 1194ms
+
+[83%] Running mutation 25/30: imported-hooks-5
+Γ£à PASS - Wall clock time: 1193ms
+
+[87%] Running mutation 26/30: imported-hooks-6
+Γ£à PASS - Wall clock time: 1192ms
+
+[90%] Running mutation 27/30: imported-hooks-7
+Γ£à PASS - Wall clock time: 1212ms
+
+[93%] Running mutation 28/30: imported-hooks-8
+Γ£à PASS - Wall clock time: 1196ms
+
+[97%] Running mutation 29/30: imported-hooks-9
+Γ£à PASS - Wall clock time: 1195ms
+
+[100%] Running mutation 30/30: imported-hooks-10
+Γ£à PASS - Wall clock time: 1196ms
+
+========================================
+≡ƒôè Day 11 Integration Test Summary
+========================================
+
+Γ£à Passed: 28/30 (93.3%)
+Γ¥î Failed: 2/30
+
+ΓÅ▒∩╕Å  Performance Baseline:
+  ΓÇó Click ΓåÆ Editor Highlight: 62ms (target: <100ms)
+  ΓÇó First Token: 404ms (target: <500ms)
+  ΓÇó Hot-Reload: 260ms (target: <300ms)
+  ΓÇó Total (Click to New UI): 1195ms
+
+≡ƒÜ¿ P0 CRITICAL ISSUES:
+  ΓÇó [validator-execution] 2 failures (e.g., simple-button-5, multi-prop-card-8)
+
+Γ£à Day 11 done when:
+  Γ£ô All P0 critical issues resolved
+  Γ£ô All P1 degraded issues resolved
+  Γ£ô Concurrency scenarios tested and handled
+  Γ£ô Time-travel rollback working (including mid-stream)
+  Γ£ô Performance baseline documented
+
+
+≡ƒôè Results saved to: D:\Vangurad-workspace\vanguard-extension\test-out\day11-results.json
